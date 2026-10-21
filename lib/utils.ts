@@ -1,1 +1,1 @@
-export { cn } from "cn"
+wexport { cn } from "cn"
