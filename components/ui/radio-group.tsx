@@ -1,18 +1,12 @@
-"use client"
+"use client";
 
-import { Radio as RadioPrimitive } from "@base-ui/react/radio"
-import { RadioGroup as RadioGroupPrimitive } from "@base-ui/react/radio-group"
-import { cn } from "cn"
-import { CheckIcon } from "lucide-react"
+import { Radio as RadioPrimitive } from "@base-ui/react/radio";
+import { RadioGroup as RadioGroupPrimitive } from "@base-ui/react/radio-group";
+import { cn } from "cn";
+import { CheckIcon } from "lucide-react";
 
 function RadioGroup({ className, ...props }: RadioGroupPrimitive.Props) {
-  return (
-    <RadioGroupPrimitive
-      data-slot="radio-group"
-      className={cn("grid w-full gap-2", className)}
-      {...props}
-    />
-  )
+  return <RadioGroupPrimitive data-slot="radio-group" className={cn("grid w-full gap-2", className)} {...props} />;
 }
 
 // The design system draws single-selection controls as squares, matching Checkbox.
@@ -21,7 +15,7 @@ function RadioGroupItem({ className, ...props }: RadioPrimitive.Root.Props) {
     <RadioPrimitive.Root
       data-slot="radio-group-item"
       className={cn(
-        "peer relative flex size-4.5 shrink-0 items-center justify-center rounded-[4px] border border-primary bg-primary/10 transition-colors outline-none after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:ring-3 focus-visible:ring-primary/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-[#ef4444] aria-invalid:ring-3 aria-invalid:ring-[#ef4444]/20 data-checked:bg-primary data-checked:text-white",
+        "peer border-primary bg-light-grey focus-visible:ring-primary/50 data-checked:bg-primary relative flex size-4.5 shrink-0 items-center justify-center rounded-[4px] border transition-colors outline-none after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:ring-3 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-[#ef4444] aria-invalid:ring-3 aria-invalid:ring-[#ef4444]/20 data-checked:text-white",
         className
       )}
       {...props}
@@ -33,7 +27,7 @@ function RadioGroupItem({ className, ...props }: RadioPrimitive.Root.Props) {
         <CheckIcon />
       </RadioPrimitive.Indicator>
     </RadioPrimitive.Root>
-  )
+  );
 }
 
-export { RadioGroup, RadioGroupItem }
+export { RadioGroup, RadioGroupItem };
