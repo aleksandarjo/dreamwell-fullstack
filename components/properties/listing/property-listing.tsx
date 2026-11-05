@@ -4,16 +4,20 @@ import ListingToolbar from "@/components/properties/listing/listing-toolbar";
 import DataRenderer from "@/components/shared/data-renderer";
 import EmptyState from "@/components/shared/empty-state";
 import { EMPTY_PROPERTIES } from "@/constants/states";
-import { DEFAULT_PAGE_SIZE, getProperties } from "@/lib/queries/property.queries";
+import { DEFAULT_PAGE_SIZE, getProperties, type SortOption } from "@/lib/queries/property.queries";
 
 const LISTING_LAYOUT = "flex flex-col gap-5";
 
-export default async function PropertyListing() {
-  const { data: properties, total } = await getProperties();
+type PropertyListingProps = {
+  sortBy: SortOption;
+};
+
+export default async function PropertyListing({ sortBy }: PropertyListingProps) {
+  const { data: properties, total } = await getProperties({ sortBy });
 
   return (
     <>
-      <ListingToolbar total={total} />
+      <ListingToolbar total={total} sortBy={sortBy} />
       <DataRenderer
         data={properties}
         empty={<EmptyState {...EMPTY_PROPERTIES} />}
@@ -29,10 +33,10 @@ export default async function PropertyListing() {
   );
 }
 
-export function PropertyListingSkeleton() {
+export function PropertyListingSkeleton({ sortBy }: Partial<PropertyListingProps>) {
   return (
     <>
-      <ListingToolbar />
+      <ListingToolbar sortBy={sortBy} />
       <div aria-hidden className={LISTING_LAYOUT}>
         {Array.from({ length: DEFAULT_PAGE_SIZE }, (_, index) => (
           <PropertyCardSkeleton key={index} />

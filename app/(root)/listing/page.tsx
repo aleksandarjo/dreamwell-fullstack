@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import PropertyFilters from "@/components/properties/filters/property-filters";
 import PropertyListing, { PropertyListingSkeleton } from "@/components/properties/listing/property-listing";
 import { getPropertyFilterOptions } from "@/lib/queries/property.queries";
+import { listingSearchParamsSchema } from "@/lib/validations";
 
 async function ListingFilters() {
   const options = await getPropertyFilterOptions();
@@ -10,7 +11,17 @@ async function ListingFilters() {
   return <PropertyFilters options={options} />;
 }
 
-export default function ListingPage() {
+async function ListingResults({ searchParams }: Pick<PageProps<"/listing">, "searchParams">) {
+  const { sortBy } = listingSearchParamsSchema.parse(await searchParams);
+
+  return (
+    <Suspense key={sortBy} fallback={<PropertyListingSkeleton sortBy={sortBy} />}>
+      <PropertyListing sortBy={sortBy} />
+    </Suspense>
+  );
+}
+
+export default function ListingPage({ searchParams }: PageProps<"/listing">) {
   return (
     <div className="container grid grid-cols-[370px_1fr] gap-17.5">
       <Suspense fallback={<div className="bg-light-grey" />}>
@@ -19,7 +30,7 @@ export default function ListingPage() {
 
       <div className="w-full">
         <Suspense fallback={<PropertyListingSkeleton />}>
-          <PropertyListing />
+          <ListingResults searchParams={searchParams} />
         </Suspense>
       </div>
     </div>

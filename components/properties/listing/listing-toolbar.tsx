@@ -1,28 +1,16 @@
+import PropertySortSelect from "@/components/properties/listing/property-sort-select";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectFieldLabel,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import { GridIcon, ListIcon } from "@/constants/icons";
 import type { SortOption } from "@/lib/queries/property.queries";
 
 type ListingToolbarProps = {
   total?: number;
+  /** Omitted in the static shell, where the URL isn't known yet. */
+  sortBy?: SortOption;
 };
 
-const SORT_OPTIONS: { value: SortOption; label: string }[] = [
-  { value: "newest", label: "Newest" },
-  { value: "oldest", label: "Oldest" },
-  { value: "price_asc", label: "Price: Low to High" },
-  { value: "price_desc", label: "Price: High to Low" },
-];
-
-export default function ListingToolbar({ total }: ListingToolbarProps) {
+export default function ListingToolbar({ total, sortBy }: ListingToolbarProps) {
   return (
     <div className="mb-10">
       <div className="flex items-start gap-2">
@@ -38,21 +26,14 @@ export default function ListingToolbar({ total }: ListingToolbarProps) {
       </div>
 
       <div className="mt-7 flex items-center justify-between gap-4">
-        <Select items={SORT_OPTIONS} value="newest">
+        {sortBy ? (
+          <PropertySortSelect sortBy={sortBy} />
+        ) : (
           <div className="flex items-center gap-5">
-            <SelectFieldLabel>Sort by</SelectFieldLabel>
-            <SelectTrigger className="w-45">
-              <SelectValue />
-            </SelectTrigger>
+            <span className="text-grey text-sm">Sort by</span>
+            <Skeleton className="h-12 w-45 rounded-lg" />
           </div>
-          <SelectContent align="start" alignItemWithTrigger={false}>
-            {SORT_OPTIONS.map(({ value, label }) => (
-              <SelectItem key={value} value={value}>
-                {label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        )}
 
         <div role="group" aria-label="Listing view" className="flex items-center gap-1">
           <Button variant="ghost" aria-label="List view" aria-pressed="true" className="size-10">

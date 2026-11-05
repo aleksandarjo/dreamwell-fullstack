@@ -42,7 +42,6 @@ function AccordionContent({ className, children, ...props }: AccordionPrimitive.
   return (
     <AccordionPrimitive.Panel
       data-slot="accordion-content"
-      // -m-1 p-1 stops overflow-hidden from clipping the focus rings of controls at the panel edge.
       className="-m-1 h-(--accordion-panel-height) overflow-hidden p-1 transition-[height] duration-200 ease-out data-ending-style:h-0 data-starting-style:h-0"
       {...props}
     >
