@@ -2,7 +2,7 @@ import "server-only";
 
 import { db } from "@/db";
 import { properties, type Property } from "@/db/schema/properties";
-import { and, asc, count, desc, eq, gte, inArray, lte, or, type SQL } from "drizzle-orm";
+import { and, asc, count, desc, eq, gte, inArray, lte, or, sql, type SQL } from "drizzle-orm";
 
 export type SortOption = "newest" | "oldest" | "price_asc" | "price_desc";
 
@@ -75,5 +75,28 @@ export async function getProperties(options: GetPropertiesOptions = {}) {
     page,
     totalPages,
     isNext: page < totalPages,
+  };
+}
+
+export async function getPropertyFilterOptions() {
+  const [result] = await db
+    .select({
+      propertyTypes: sql<Property["propertyType"][]>`
+        array_agg(DISTINCT ${properties.propertyType})
+      `,
+      listingTypes: sql<Property["listingType"][]>`
+        array_agg(DISTINCT ${properties.listingType})
+      `,
+      cities: sql<string[]>`
+        array_agg(DISTINCT ${properties.city})
+      `,
+    })
+    .from(properties)
+    .where(eq(properties.isPublished, true));
+
+  return {
+    propertyTypes: result.propertyTypes ?? [],
+    listingTypes: result.listingTypes ?? [],
+    cities: result.cities ?? [],
   };
 }
