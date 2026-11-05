@@ -1,17 +1,26 @@
+import { Suspense } from "react";
+
 import PropertyFilters from "@/components/properties/filters/property-filters";
-import { getProperties, getPropertyFilterOptions } from "@/lib/queries/property.queries";
+import PropertyListing, { PropertyListingSkeleton } from "@/components/properties/listing/property-listing";
+import { getPropertyFilterOptions } from "@/lib/queries/property.queries";
 
-export default async function ListingPage() {
-  const [listing, filterOptions] = await Promise.all([getProperties(), getPropertyFilterOptions()]);
+async function ListingFilters() {
+  const options = await getPropertyFilterOptions();
 
-  console.log(listing, filterOptions);
+  return <PropertyFilters options={options} />;
+}
 
+export default function ListingPage() {
   return (
     <div className="container grid grid-cols-[370px_1fr] gap-17.5">
-      <PropertyFilters options={filterOptions} />
-      <div>
-        <h1>Property Listing</h1>
-        <p>sort criteria</p>
+      <Suspense fallback={<div className="bg-light-grey" />}>
+        <ListingFilters />
+      </Suspense>
+
+      <div className="w-full">
+        <Suspense fallback={<PropertyListingSkeleton />}>
+          <PropertyListing />
+        </Suspense>
       </div>
     </div>
   );

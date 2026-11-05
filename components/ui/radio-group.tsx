@@ -9,7 +9,6 @@ function RadioGroup({ className, ...props }: RadioGroupPrimitive.Props) {
   return <RadioGroupPrimitive data-slot="radio-group" className={cn("grid w-full gap-2", className)} {...props} />;
 }
 
-// The design system draws single-selection controls as squares, matching Checkbox.
 function RadioGroupItem({ className, ...props }: RadioPrimitive.Root.Props) {
   return (
     <RadioPrimitive.Root

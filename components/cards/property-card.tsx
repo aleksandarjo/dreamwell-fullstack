@@ -5,6 +5,7 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import type { Property } from "@/db/schema/properties";
 import { ArrowRightIcon, BathIcon, BedIcon, GarageIcon, HeartIcon, MapPinIcon, SquareIcon } from "@/constants/icons";
+import { ROUTES } from "@/constants/routes";
 import { cn, formatPrice } from "@/lib/utils";
 
 type PropertyCardProps = VariantProps<typeof cardVariants> & {
@@ -13,7 +14,7 @@ type PropertyCardProps = VariantProps<typeof cardVariants> & {
 };
 
 export default function PropertyCard({ property, isFavorite, orientation = "vertical" }: PropertyCardProps) {
-  const href = `/properties/${property.id}`;
+  const href = ROUTES.PROPERTY(property.id);
   const isRent = property.listingType === "rent";
 
   const propertyAttributes = [
@@ -103,7 +104,7 @@ export default function PropertyCard({ property, isFavorite, orientation = "vert
   );
 }
 
-const cardVariants = cva(
+export const cardVariants = cva(
   "group relative rounded-[15px] bg-white p-4 pb-7 shadow-main transition-shadow hover:shadow-hover",
   {
     variants: {
@@ -118,7 +119,7 @@ const cardVariants = cva(
   }
 );
 
-const containerVariants = cva("flex flex-col gap-4", {
+export const containerVariants = cva("flex flex-col gap-4", {
   variants: {
     orientation: {
       vertical: "",
@@ -130,7 +131,7 @@ const containerVariants = cva("flex flex-col gap-4", {
   },
 });
 
-const imageVariants = cva("relative w-full shrink-0 overflow-hidden rounded-xl", {
+export const imageVariants = cva("relative w-full shrink-0 overflow-hidden rounded-xl", {
   variants: {
     orientation: {
       vertical: "aspect-[4/3]",

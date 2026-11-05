@@ -20,7 +20,7 @@ export type GetPropertiesOptions = {
   pageSize?: number;
 };
 
-const DEFAULT_PAGE_SIZE = 15;
+export const DEFAULT_PAGE_SIZE = 15;
 const MAX_PAGE_SIZE = 50;
 
 const sortOrders = {
