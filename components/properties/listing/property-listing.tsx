@@ -14,9 +14,11 @@ import {
 } from "@/lib/queries/property.queries";
 import type { ListingView } from "@/types/property";
 
+const GRID_LAYOUT = "grid grid-cols-[repeat(auto-fill,minmax(min(100%,21rem),1fr))] justify-items-center gap-5";
+
 const LISTING_LAYOUTS = {
-  grid: { className: "grid justify-items-center gap-5 xl:grid-cols-2 2xl:grid-cols-3", orientation: "vertical" },
-  list: { className: "flex flex-col gap-5", orientation: "horizontal" },
+  grid: { className: GRID_LAYOUT, orientation: "vertical" },
+  list: { className: `${GRID_LAYOUT} xl:flex xl:flex-col`, orientation: "horizontal" },
 } as const;
 
 type PropertyListingProps = {

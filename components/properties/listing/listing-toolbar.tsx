@@ -1,3 +1,4 @@
+import { PropertyFiltersTrigger } from "@/components/properties/filters/property-filters-sheet";
 import ListingViewToggle from "@/components/properties/listing/listing-view-toggle";
 import PropertySortSelect from "@/components/properties/listing/property-sort-select";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -26,7 +27,9 @@ export default function ListingToolbar({ total, sortBy, view }: ListingToolbarPr
         )}
       </div>
 
-      <div className="mt-7 flex items-center justify-between gap-4">
+      <div className="mt-7 flex flex-wrap items-center gap-4">
+        <PropertyFiltersTrigger />
+
         {sortBy ? (
           <PropertySortSelect sortBy={sortBy} />
         ) : (
@@ -36,7 +39,9 @@ export default function ListingToolbar({ total, sortBy, view }: ListingToolbarPr
           </div>
         )}
 
-        {view ? <ListingViewToggle view={view} /> : <Skeleton className="h-10 w-21 rounded-lg" />}
+        <div className="ml-auto hidden xl:block">
+          {view ? <ListingViewToggle view={view} /> : <Skeleton className="h-10 w-21 rounded-lg" />}
+        </div>
       </div>
     </div>
   );

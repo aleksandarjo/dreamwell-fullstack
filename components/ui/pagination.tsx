@@ -15,7 +15,7 @@ type PaginationArrowProps = {
   children: ReactNode;
 };
 
-const PAGE_ITEM = "text-grey shadow-main size-10 rounded-lg bg-white p-0 text-base font-normal xl:size-11";
+const PAGE_ITEM = "text-grey shadow-main size-9 rounded-lg bg-white p-0 text-base font-normal sm:size-10 xl:size-11";
 
 function Pagination({ className, ...props }: ComponentProps<"nav">) {
   return <nav aria-label="Pagination" data-slot="pagination" className={cn("w-full", className)} {...props} />;
@@ -25,7 +25,7 @@ function PaginationContent({ className, ...props }: ComponentProps<"ul">) {
   return (
     <ul
       data-slot="pagination-content"
-      className={cn("flex flex-wrap items-center justify-center gap-1.5 xl:gap-4 2xl:gap-6", className)}
+      className={cn("flex flex-wrap items-center justify-center gap-1 sm:gap-1.5 xl:gap-4 2xl:gap-6", className)}
       {...props}
     />
   );
@@ -61,7 +61,7 @@ function PaginationLink({ className, isActive, href, children, ...props }: Pagin
 }
 
 function PaginationArrow({ href, label, children }: PaginationArrowProps) {
-  const className = cn(buttonVariants({ variant: "ghost" }), "size-10");
+  const className = cn(buttonVariants({ variant: "ghost" }), "h-10 w-7 sm:w-10");
 
   if (!href) {
     return (

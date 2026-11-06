@@ -27,7 +27,7 @@ async function ListingResults({ searchParams }: Pick<PageProps<"/listing">, "sea
 
 export default function ListingPage({ searchParams }: PageProps<"/listing">) {
   return (
-    <div className="container grid grid-cols-[370px_1fr] gap-17.5">
+    <div className="container xl:grid xl:grid-cols-[370px_1fr] xl:gap-17.5">
       <Suspense fallback={<div className="bg-light-grey" />}>
         <ListingFilters />
       </Suspense>

@@ -41,9 +41,7 @@ export default function PropertyCard({ property, isFavorite, orientation = "vert
               src={property.coverImage}
               alt={property.title}
               fill
-              sizes={
-                orientation === "horizontal" ? "(min-width: 640px) 40vw, 100vw" : "(min-width: 640px) 390px, 100vw"
-              }
+              sizes="(min-width: 640px) 390px, 100vw"
               className="object-cover"
             />
           ) : (
@@ -105,7 +103,7 @@ export const cardVariants = cva(
     variants: {
       orientation: {
         vertical: "w-full max-w-sm",
-        horizontal: "w-full",
+        horizontal: "w-full max-w-sm xl:max-w-none",
       },
     },
     defaultVariants: {
@@ -130,7 +128,7 @@ export const imageVariants = cva("relative w-full shrink-0 overflow-hidden round
   variants: {
     orientation: {
       vertical: "aspect-[4/3]",
-      horizontal: "aspect-[16/9] xl:max-w-[370px]",
+      horizontal: "aspect-[4/3] xl:aspect-[16/9] xl:max-w-[370px]",
     },
   },
   defaultVariants: {
@@ -142,7 +140,7 @@ export const contentVariants = cva("flex flex-1 flex-col gap-4 px-5", {
   variants: {
     orientation: {
       vertical: "min-h-70 justify-between",
-      horizontal: "justify-around",
+      horizontal: "min-h-70 justify-between xl:min-h-0 xl:justify-around",
     },
   },
   defaultVariants: {
