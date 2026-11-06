@@ -12,12 +12,12 @@ async function ListingFilters() {
 }
 
 async function ListingResults({ searchParams }: Pick<PageProps<"/listing">, "searchParams">) {
-  const { sortBy, type, status, city, ...rest } = listingSearchParamsSchema.parse(await searchParams);
+  const { sortBy, type, status, city, page, ...rest } = listingSearchParamsSchema.parse(await searchParams);
   const filters = { propertyTypes: type, listingType: status, cities: city, ...rest };
 
   return (
-    <Suspense key={JSON.stringify([sortBy, filters])} fallback={<PropertyListingSkeleton sortBy={sortBy} />}>
-      <PropertyListing sortBy={sortBy} filters={filters} />
+    <Suspense key={JSON.stringify([sortBy, filters, page])} fallback={<PropertyListingSkeleton sortBy={sortBy} />}>
+      <PropertyListing sortBy={sortBy} filters={filters} page={page} />
     </Suspense>
   );
 }

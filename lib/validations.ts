@@ -4,7 +4,6 @@ import { z } from "zod";
 
 const POSTGRES_INT_MAX = 2_147_483_647;
 
-// Keeps the allowed options present in a single or repeated query param.
 const allowedValues = <T extends string | number>(options: readonly T[]) =>
   z
     .unknown()
@@ -23,6 +22,13 @@ const priceSchema = z
   .optional()
   .catch(undefined);
 
+const pageSchema = z
+  .string()
+  .regex(/^[1-9]\d*$/)
+  .transform(Number)
+  .refine(Number.isSafeInteger)
+  .catch(1);
+
 export const listingSearchParamsSchema = z.object({
   sortBy: z.enum(SORT_OPTIONS.map(({ value }) => value)).catch(DEFAULT_SORT),
   type: allowedValues(propertyTypeEnum.enumValues),
@@ -34,4 +40,5 @@ export const listingSearchParamsSchema = z.object({
   bedrooms: allowedValues(BEDROOM_OPTIONS),
   minPrice: priceSchema,
   maxPrice: priceSchema,
+  page: pageSchema,
 });

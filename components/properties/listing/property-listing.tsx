@@ -3,6 +3,7 @@ import PropertyCardSkeleton from "@/components/cards/property-card-skeleton";
 import ListingToolbar from "@/components/properties/listing/listing-toolbar";
 import DataRenderer from "@/components/shared/data-renderer";
 import EmptyState from "@/components/shared/empty-state";
+import UrlPagination from "@/components/shared/url-pagination";
 import { EMPTY_PROPERTIES } from "@/constants/states";
 import {
   DEFAULT_PAGE_SIZE,
@@ -16,10 +17,11 @@ const LISTING_LAYOUT = "flex flex-col gap-5";
 type PropertyListingProps = {
   sortBy: SortOption;
   filters: GetPropertiesOptions;
+  page: number;
 };
 
-export default async function PropertyListing({ sortBy, filters }: PropertyListingProps) {
-  const { data: properties, total } = await getProperties({ ...filters, sortBy });
+export default async function PropertyListing({ sortBy, filters, page }: PropertyListingProps) {
+  const { data: properties, total, page: currentPage, totalPages } = await getProperties({ ...filters, sortBy, page });
 
   return (
     <>
@@ -35,6 +37,7 @@ export default async function PropertyListing({ sortBy, filters }: PropertyListi
           </div>
         )}
       />
+      <UrlPagination page={currentPage} totalPages={totalPages} aria-label="Property listing pages" className="my-12" />
     </>
   );
 }
