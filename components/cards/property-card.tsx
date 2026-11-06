@@ -51,12 +51,7 @@ export default function PropertyCard({ property, isFavorite, orientation = "vert
           )}
         </div>
 
-        <div
-          className={cn(
-            "flex flex-1 flex-col gap-4 px-5",
-            orientation === "horizontal" ? "justify-around" : "min-h-70 justify-between"
-          )}
-        >
+        <div className={contentVariants({ orientation })}>
           <div>
             <Link href={href} className="focus-visible:outline-none">
               <h3 className="text-dark-blue group-hover:text-primary line-clamp-2 text-xl leading-tight font-semibold transition-colors sm:text-2xl">
@@ -71,7 +66,7 @@ export default function PropertyCard({ property, isFavorite, orientation = "vert
             </p>
           </div>
 
-          <div className={cn("", orientation === "horizontal" ? "grid grid-cols-[auto_305px] justify-between" : "")}>
+          <div className={footerVariants({ orientation })}>
             <ul className="flex flex-wrap items-center gap-4">
               {propertyAttributes.map(({ icon: Icon, label }) => (
                 <li key={label} className="text-grey flex items-center gap-2">
@@ -123,7 +118,7 @@ export const containerVariants = cva("flex flex-col gap-4", {
   variants: {
     orientation: {
       vertical: "",
-      horizontal: "sm:flex-row sm:items-stretch",
+      horizontal: "xl:flex-row xl:items-stretch",
     },
   },
   defaultVariants: {
@@ -135,7 +130,31 @@ export const imageVariants = cva("relative w-full shrink-0 overflow-hidden round
   variants: {
     orientation: {
       vertical: "aspect-[4/3]",
-      horizontal: "aspect-[16/9] max-w-[370px]",
+      horizontal: "aspect-[16/9] xl:max-w-[370px]",
+    },
+  },
+  defaultVariants: {
+    orientation: "vertical",
+  },
+});
+
+export const contentVariants = cva("flex flex-1 flex-col gap-4 px-5", {
+  variants: {
+    orientation: {
+      vertical: "min-h-70 justify-between",
+      horizontal: "justify-around",
+    },
+  },
+  defaultVariants: {
+    orientation: "vertical",
+  },
+});
+
+export const footerVariants = cva("", {
+  variants: {
+    orientation: {
+      vertical: "",
+      horizontal: "min-[1440px]:grid min-[1440px]:grid-cols-[auto_305px] min-[1440px]:justify-between",
     },
   },
   defaultVariants: {

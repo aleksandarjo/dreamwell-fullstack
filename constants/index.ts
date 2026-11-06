@@ -1,6 +1,9 @@
 import { BedroomOption, SortOption } from "@/lib/queries/property.queries";
+import type { ListingView } from "@/types/property";
 
 export const DEFAULT_SORT = "newest" satisfies SortOption;
+
+export const DEFAULT_VIEW = "list" satisfies ListingView;
 
 export const SORT_OPTIONS = [
   { value: "newest", label: "Newest" },

@@ -1,4 +1,4 @@
-import { BEDROOM_OPTIONS, DEFAULT_SORT, SORT_OPTIONS } from "@/constants";
+import { BEDROOM_OPTIONS, DEFAULT_SORT, DEFAULT_VIEW, SORT_OPTIONS } from "@/constants";
 import { listingTypeEnum, propertyTypeEnum } from "@/db/schema/properties";
 import { z } from "zod";
 
@@ -41,4 +41,5 @@ export const listingSearchParamsSchema = z.object({
   minPrice: priceSchema,
   maxPrice: priceSchema,
   page: pageSchema,
+  view: z.enum(["list", "grid"]).catch(DEFAULT_VIEW),
 });

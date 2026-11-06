@@ -1,9 +1,17 @@
-import { cardVariants, containerVariants, imageVariants } from "@/components/cards/property-card";
+import type { VariantProps } from "class-variance-authority";
+
+import {
+  cardVariants,
+  containerVariants,
+  contentVariants,
+  footerVariants,
+  imageVariants,
+} from "@/components/cards/property-card";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const orientation = "horizontal";
+type PropertyCardSkeletonProps = VariantProps<typeof cardVariants>;
 
-export default function PropertyCardSkeleton() {
+export default function PropertyCardSkeleton({ orientation = "vertical" }: PropertyCardSkeletonProps) {
   return (
     <div className={cardVariants({ orientation })}>
       <Skeleton className="absolute top-7 right-7 z-10 size-10 rounded-full" />
@@ -11,13 +19,13 @@ export default function PropertyCardSkeleton() {
       <div className={containerVariants({ orientation })}>
         <Skeleton className={imageVariants({ orientation })} />
 
-        <div className="flex flex-1 flex-col justify-around gap-4 px-5">
+        <div className={contentVariants({ orientation })}>
           <div>
             <Skeleton className="h-6 w-1/2 sm:h-7.5" />
             <Skeleton className="mt-3 h-5 w-1/3" />
           </div>
 
-          <div className="grid grid-cols-[auto_305px] justify-between">
+          <div className={footerVariants({ orientation })}>
             <div className="flex flex-wrap items-center gap-4">
               {Array.from({ length: 4 }, (_, index) => (
                 <Skeleton key={index} className="h-5 w-20" />

@@ -4,6 +4,7 @@ import ListingToolbar from "@/components/properties/listing/listing-toolbar";
 import DataRenderer from "@/components/shared/data-renderer";
 import EmptyState from "@/components/shared/empty-state";
 import UrlPagination from "@/components/shared/url-pagination";
+import { DEFAULT_VIEW } from "@/constants";
 import { EMPTY_PROPERTIES } from "@/constants/states";
 import {
   DEFAULT_PAGE_SIZE,
@@ -11,28 +12,34 @@ import {
   type GetPropertiesOptions,
   type SortOption,
 } from "@/lib/queries/property.queries";
+import type { ListingView } from "@/types/property";
 
-const LISTING_LAYOUT = "flex flex-col gap-5";
+const LISTING_LAYOUTS = {
+  grid: { className: "grid justify-items-center gap-5 xl:grid-cols-2 2xl:grid-cols-3", orientation: "vertical" },
+  list: { className: "flex flex-col gap-5", orientation: "horizontal" },
+} as const;
 
 type PropertyListingProps = {
   sortBy: SortOption;
   filters: GetPropertiesOptions;
   page: number;
+  view: ListingView;
 };
 
-export default async function PropertyListing({ sortBy, filters, page }: PropertyListingProps) {
+export default async function PropertyListing({ sortBy, filters, page, view }: PropertyListingProps) {
   const { data: properties, total, page: currentPage, totalPages } = await getProperties({ ...filters, sortBy, page });
+  const { className, orientation } = LISTING_LAYOUTS[view];
 
   return (
     <>
-      <ListingToolbar total={total} sortBy={sortBy} />
+      <ListingToolbar total={total} sortBy={sortBy} view={view} />
       <DataRenderer
         data={properties}
         empty={<EmptyState {...EMPTY_PROPERTIES} />}
         render={(items) => (
-          <div className={LISTING_LAYOUT}>
+          <div className={className}>
             {items.map((property) => (
-              <PropertyCard key={property.id} property={property} orientation="horizontal" />
+              <PropertyCard key={property.id} property={property} orientation={orientation} />
             ))}
           </div>
         )}
@@ -42,13 +49,15 @@ export default async function PropertyListing({ sortBy, filters, page }: Propert
   );
 }
 
-export function PropertyListingSkeleton({ sortBy }: { sortBy?: SortOption }) {
+export function PropertyListingSkeleton({ sortBy, view }: { sortBy?: SortOption; view?: ListingView }) {
+  const { className, orientation } = LISTING_LAYOUTS[view ?? DEFAULT_VIEW];
+
   return (
     <>
-      <ListingToolbar sortBy={sortBy} />
-      <div aria-hidden className={LISTING_LAYOUT}>
+      <ListingToolbar sortBy={sortBy} view={view} />
+      <div aria-hidden className={className}>
         {Array.from({ length: DEFAULT_PAGE_SIZE }, (_, index) => (
-          <PropertyCardSkeleton key={index} />
+          <PropertyCardSkeleton key={index} orientation={orientation} />
         ))}
       </div>
     </>

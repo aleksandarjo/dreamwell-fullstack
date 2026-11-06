@@ -1,16 +1,17 @@
+import ListingViewToggle from "@/components/properties/listing/listing-view-toggle";
 import PropertySortSelect from "@/components/properties/listing/property-sort-select";
-import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { GridIcon, ListIcon } from "@/constants/icons";
 import type { SortOption } from "@/lib/queries/property.queries";
+import type { ListingView } from "@/types/property";
 
 type ListingToolbarProps = {
   total?: number;
   /** Omitted in the static shell, where the URL isn't known yet. */
   sortBy?: SortOption;
+  view?: ListingView;
 };
 
-export default function ListingToolbar({ total, sortBy }: ListingToolbarProps) {
+export default function ListingToolbar({ total, sortBy, view }: ListingToolbarProps) {
   return (
     <div className="mb-10">
       <div className="flex items-start gap-2">
@@ -35,14 +36,7 @@ export default function ListingToolbar({ total, sortBy }: ListingToolbarProps) {
           </div>
         )}
 
-        <div role="group" aria-label="Listing view" className="flex items-center gap-1">
-          <Button variant="ghost" aria-label="List view" aria-pressed="true" className="size-10">
-            <ListIcon className="[&_path]:fill-primary size-6.25" />
-          </Button>
-          <Button variant="ghost" aria-label="Grid view" aria-pressed="false" className="size-10 disabled:opacity-100">
-            <GridIcon className="size-6.25" />
-          </Button>
-        </div>
+        {view ? <ListingViewToggle view={view} /> : <Skeleton className="h-10 w-21 rounded-lg" />}
       </div>
     </div>
   );
