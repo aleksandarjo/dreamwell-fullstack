@@ -4,6 +4,7 @@ import { CheckboxGroup } from "@base-ui/react/checkbox-group";
 import { SearchIcon } from "lucide-react";
 import { useState } from "react";
 
+import { useListingQuery } from "@/components/properties/filters/listing-query-provider";
 import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
@@ -15,8 +16,11 @@ type FilterPropertyCityProps = {
 };
 
 export default function FilterPropertyCity({ cities }: FilterPropertyCityProps) {
+  const { searchParams, updateQuery } = useListingQuery();
   const [search, setSearch] = useState("");
-  const [selectedCities, setSelectedCities] = useState<string[]>([]);
+
+  const urlCities = searchParams.getAll("city");
+  const selectedCities = cities.filter((city) => urlCities.includes(city));
 
   const query = search.trim().toLowerCase();
   const visibleCities = cities.filter((city) => city.toLowerCase().includes(query));
@@ -43,7 +47,7 @@ export default function FilterPropertyCity({ cities }: FilterPropertyCityProps) 
         <CheckboxGroup
           aria-label="City"
           value={selectedCities}
-          onValueChange={setSelectedCities}
+          onValueChange={(city) => updateQuery({ city })}
           className="flex flex-col gap-6"
         >
           {visibleCities.map((city) => (

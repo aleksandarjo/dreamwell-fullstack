@@ -1,21 +1,34 @@
+"use client";
+
 import { CheckboxGroup } from "@base-ui/react/checkbox-group";
 
+import { useListingQuery } from "@/components/properties/filters/listing-query-provider";
 import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import type { BedroomOption } from "@/lib/queries/property.queries";
+import { BEDROOM_OPTIONS } from "@/constants";
 
-const BEDROOM_OPTIONS: BedroomOption[] = [1, 2, 3, "4+"];
+const bedroomValues = BEDROOM_OPTIONS.map(String);
 
 export default function FilterPropertyBedroom() {
+  const { searchParams, updateQuery } = useListingQuery();
+
+  const urlBedrooms = searchParams.getAll("bedrooms");
+  const selectedBedrooms = bedroomValues.filter((bedroom) => urlBedrooms.includes(bedroom));
+
   return (
     <AccordionItem value="bedroom">
       <AccordionTrigger>Bedroom</AccordionTrigger>
       <AccordionContent>
-        <CheckboxGroup aria-label="Bedrooms" className="flex flex-col gap-6">
-          {BEDROOM_OPTIONS.map((bedroom) => (
+        <CheckboxGroup
+          aria-label="Bedrooms"
+          value={selectedBedrooms}
+          onValueChange={(bedrooms) => updateQuery({ bedrooms })}
+          className="flex flex-col gap-6"
+        >
+          {bedroomValues.map((bedroom) => (
             <Label key={bedroom}>
-              <Checkbox value={String(bedroom)} />
+              <Checkbox value={bedroom} />
               {bedroom}
             </Label>
           ))}

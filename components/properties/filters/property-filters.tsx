@@ -3,6 +3,7 @@ import FilterPropertyCity from "@/components/properties/filters/filter-property-
 import FilterPropertyPrice from "@/components/properties/filters/filter-property-price";
 import FilterPropertyStatus from "@/components/properties/filters/filter-property-status";
 import FilterPropertyType from "@/components/properties/filters/filter-property-type";
+import ListingQueryProvider from "@/components/properties/filters/listing-query-provider";
 import { Accordion } from "@/components/ui/accordion";
 import type { PropertyFilterOptions } from "@/types/property";
 
@@ -15,13 +16,15 @@ const FILTER_SECTIONS = ["type", "status", "city", "bedroom", "price"];
 export default function PropertyFilters({ options }: PropertyFiltersProps) {
   return (
     <aside aria-label="Property filters" className="bg-light-grey max-h-fit p-10">
-      <Accordion multiple keepMounted defaultValue={FILTER_SECTIONS} className="gap-8 *:not-last:pb-2.5">
-        <FilterPropertyType propertyTypes={options.propertyTypes} />
-        <FilterPropertyStatus listingTypes={options.listingTypes} />
-        <FilterPropertyCity cities={options.cities} />
-        <FilterPropertyBedroom />
-        <FilterPropertyPrice />
-      </Accordion>
+      <ListingQueryProvider>
+        <Accordion multiple keepMounted defaultValue={FILTER_SECTIONS} className="gap-8 *:not-last:pb-2.5">
+          <FilterPropertyType propertyTypes={options.propertyTypes} />
+          <FilterPropertyStatus listingTypes={options.listingTypes} />
+          <FilterPropertyCity cities={options.cities} />
+          <FilterPropertyBedroom />
+          <FilterPropertyPrice />
+        </Accordion>
+      </ListingQueryProvider>
     </aside>
   );
 }

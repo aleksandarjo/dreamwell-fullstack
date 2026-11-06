@@ -1,5 +1,8 @@
+"use client";
+
 import { CheckboxGroup } from "@base-ui/react/checkbox-group";
 
+import { useListingQuery } from "@/components/properties/filters/listing-query-provider";
 import type { PropertyFilterOptions } from "@/types/property";
 import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -10,11 +13,21 @@ type FilterPropertyTypeProps = {
 };
 
 export default function FilterPropertyType({ propertyTypes }: FilterPropertyTypeProps) {
+  const { searchParams, updateQuery } = useListingQuery();
+
+  const urlTypes = searchParams.getAll("type");
+  const selectedTypes = propertyTypes.filter((propertyType) => urlTypes.includes(propertyType));
+
   return (
     <AccordionItem value="type">
       <AccordionTrigger>Type</AccordionTrigger>
       <AccordionContent>
-        <CheckboxGroup aria-label="Property type" className="flex flex-col gap-6">
+        <CheckboxGroup
+          aria-label="Property type"
+          value={selectedTypes}
+          onValueChange={(type) => updateQuery({ type })}
+          className="flex flex-col gap-6"
+        >
           {propertyTypes.map((propertyType) => (
             <Label key={propertyType}>
               <Checkbox value={propertyType} />

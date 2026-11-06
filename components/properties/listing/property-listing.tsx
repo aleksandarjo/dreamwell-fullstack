@@ -4,16 +4,22 @@ import ListingToolbar from "@/components/properties/listing/listing-toolbar";
 import DataRenderer from "@/components/shared/data-renderer";
 import EmptyState from "@/components/shared/empty-state";
 import { EMPTY_PROPERTIES } from "@/constants/states";
-import { DEFAULT_PAGE_SIZE, getProperties, type SortOption } from "@/lib/queries/property.queries";
+import {
+  DEFAULT_PAGE_SIZE,
+  getProperties,
+  type GetPropertiesOptions,
+  type SortOption,
+} from "@/lib/queries/property.queries";
 
 const LISTING_LAYOUT = "flex flex-col gap-5";
 
 type PropertyListingProps = {
   sortBy: SortOption;
+  filters: GetPropertiesOptions;
 };
 
-export default async function PropertyListing({ sortBy }: PropertyListingProps) {
-  const { data: properties, total } = await getProperties({ sortBy });
+export default async function PropertyListing({ sortBy, filters }: PropertyListingProps) {
+  const { data: properties, total } = await getProperties({ ...filters, sortBy });
 
   return (
     <>
@@ -33,7 +39,7 @@ export default async function PropertyListing({ sortBy }: PropertyListingProps) 
   );
 }
 
-export function PropertyListingSkeleton({ sortBy }: Partial<PropertyListingProps>) {
+export function PropertyListingSkeleton({ sortBy }: { sortBy?: SortOption }) {
   return (
     <>
       <ListingToolbar sortBy={sortBy} />
