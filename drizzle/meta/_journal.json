@@ -36,6 +36,20 @@
       "when": 1792593315208,
       "tag": "0004_fix-area-sqft-type",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1794230721869,
+      "tag": "0005_add-property-images",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1794236562749,
+      "tag": "0006_enable-rls",
+      "breakpoints": true
     }
   ]
 }

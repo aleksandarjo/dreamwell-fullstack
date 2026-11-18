@@ -62,7 +62,7 @@ export const properties = pgTable("properties", {
     .notNull()
     .defaultNow()
     .$onUpdate(() => new Date()),
-});
+}).enableRLS();
 
 export type Property = typeof properties.$inferSelect;
 export type NewProperty = typeof properties.$inferInsert;
