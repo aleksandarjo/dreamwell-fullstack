@@ -2,7 +2,8 @@ import "server-only";
 
 import { db } from "@/db";
 import { properties, type Property } from "@/db/schema/properties";
-import { and, asc, count, desc, eq, gte, inArray, lte, or, sql, type SQL } from "drizzle-orm";
+import { propertyImages } from "@/db/schema/property-images";
+import { and, asc, count, desc, eq, getTableColumns, gte, inArray, lte, or, sql, type SQL } from "drizzle-orm";
 
 export type SortOption = "newest" | "oldest" | "price_asc" | "price_desc";
 
@@ -61,8 +62,18 @@ export async function getProperties(options: GetPropertiesOptions = {}) {
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
   const page = Math.min(toPositiveInt(options.page, 1), totalPages);
 
+  const coverImagePath = db
+    .select({ storagePath: propertyImages.storagePath })
+    .from(propertyImages)
+    .where(eq(propertyImages.propertyId, properties.id))
+    .orderBy(asc(propertyImages.position), asc(propertyImages.id))
+    .limit(1);
+
   const results = await db
-    .select()
+    .select({
+      ...getTableColumns(properties),
+      coverImagePath: sql<string | null>`${coverImagePath}`,
+    })
     .from(properties)
     .where(where)
     .orderBy(...sortOrders[sortBy])

@@ -1,0 +1,1 @@
+ALTER TABLE "properties" DROP COLUMN "cover_image";

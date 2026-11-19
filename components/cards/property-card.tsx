@@ -3,19 +3,21 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { buttonVariants } from "@/components/ui/button";
-import type { Property } from "@/db/schema/properties";
 import { ArrowRightIcon, BathIcon, BedIcon, GarageIcon, HeartIcon, MapPinIcon, SquareIcon } from "@/constants/icons";
 import { ROUTES } from "@/constants/routes";
+import { getPropertyImageUrl } from "@/lib/storage";
 import { cn, formatPrice } from "@/lib/utils";
+import type { PropertyListItem } from "@/types/property";
 
 type PropertyCardProps = VariantProps<typeof cardVariants> & {
-  property: Property;
+  property: PropertyListItem;
   isFavorite?: boolean;
 };
 
 export default function PropertyCard({ property, isFavorite, orientation = "vertical" }: PropertyCardProps) {
   const href = ROUTES.PROPERTY(property.id);
   const isRent = property.listingType === "rent";
+  const coverImageUrl = property.coverImagePath ? getPropertyImageUrl(property.coverImagePath) : null;
 
   const propertyAttributes = [
     { icon: BedIcon, label: `${property.bedrooms} Bed` },
@@ -36,9 +38,9 @@ export default function PropertyCard({ property, isFavorite, orientation = "vert
 
       <div className={containerVariants({ orientation })}>
         <div className={imageVariants({ orientation })}>
-          {property.coverImage ? (
+          {coverImageUrl ? (
             <Image
-              src={property.coverImage}
+              src={coverImageUrl}
               alt={property.title}
               fill
               sizes="(min-width: 640px) 390px, 100vw"

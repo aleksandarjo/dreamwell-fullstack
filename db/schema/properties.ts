@@ -46,8 +46,6 @@ export const properties = pgTable("properties", {
 
   areaSqft: integer("area_sqft").notNull(),
 
-  coverImage: text("cover_image"),
-
   isPublished: boolean("is_published").notNull().default(false),
 
   createdAt: timestamp("created_at", {

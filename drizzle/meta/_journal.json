@@ -50,6 +50,13 @@
       "when": 1794236562749,
       "tag": "0006_enable-rls",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1795014819811,
+      "tag": "0007_drop-cover-image",
+      "breakpoints": true
     }
   ]
 }
