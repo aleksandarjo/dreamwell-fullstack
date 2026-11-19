@@ -43,3 +43,5 @@ export const listingSearchParamsSchema = z.object({
   page: pageSchema,
   view: z.enum(["list", "grid"]).catch(DEFAULT_VIEW),
 });
+
+export const propertyIdSchema = z.uuid();

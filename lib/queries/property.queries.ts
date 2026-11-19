@@ -1,8 +1,11 @@
 import "server-only";
 
+import { cache } from "react";
+
 import { db } from "@/db";
 import { properties, type Property } from "@/db/schema/properties";
 import { propertyImages } from "@/db/schema/property-images";
+import { propertyIdSchema } from "@/lib/validations";
 import { and, asc, count, desc, eq, getTableColumns, gte, inArray, lte, or, sql, type SQL } from "drizzle-orm";
 
 export type SortOption = "newest" | "oldest" | "price_asc" | "price_desc";
@@ -88,6 +91,27 @@ export async function getProperties(options: GetPropertiesOptions = {}) {
     isNext: page < totalPages,
   };
 }
+
+export const getPropertyById = cache(async (id: string) => {
+  if (!propertyIdSchema.safeParse(id).success) return null;
+
+  const galleryPaths = db
+    .select({ storagePath: propertyImages.storagePath })
+    .from(propertyImages)
+    .where(eq(propertyImages.propertyId, properties.id))
+    .orderBy(asc(propertyImages.position), asc(propertyImages.id));
+
+  const [property] = await db
+    .select({
+      ...getTableColumns(properties),
+      galleryPaths: sql<string[]>`array${galleryPaths}`,
+    })
+    .from(properties)
+    .where(and(eq(properties.id, id), eq(properties.isPublished, true)))
+    .limit(1);
+
+  return property ?? null;
+});
 
 export async function getPropertyFilterOptions() {
   const [result] = await db
