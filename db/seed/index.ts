@@ -4,10 +4,8 @@ import postgres from "postgres";
 
 import { properties } from "../schema/properties";
 import { propertyImages } from "../schema/property-images";
-import { featuredProperties } from "./featured-properties";
-import { generateProperties } from "./generate-properties";
 import { generatePropertyImages } from "./generate-property-images";
-import { stableUuid } from "./stable-uuid";
+import { buildSeedListings } from "./seed-listings";
 
 config({ path: ".env.local" });
 
@@ -23,13 +21,7 @@ async function seed() {
   const db = drizzle({ client });
 
   try {
-    const listings = [
-      ...featuredProperties.map((property, index) => ({ ...property, id: stableUuid(`property:featured:${index}`) })),
-      ...generateProperties(88).map((property, index) => ({
-        ...property,
-        id: stableUuid(`property:generated:${index}`),
-      })),
-    ];
+    const listings = buildSeedListings();
     const images = generatePropertyImages(listings);
 
     await db.transaction(async (tx) => {

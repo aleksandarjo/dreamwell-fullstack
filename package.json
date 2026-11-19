@@ -11,6 +11,7 @@
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
     "db:seed": "tsx ./db/seed/index.ts",
+    "db:backfill-property-details": "tsx ./db/seed/backfill-property-details.ts",
     "storage:upload-seed-images": "tsx ./db/seed/upload-images.ts"
   },
   "dependencies": {
