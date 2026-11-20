@@ -1,5 +1,21 @@
 type QueryValue = string | string[] | null;
 
+export function getSiteUrl(): URL | null {
+  const value = process.env.NEXT_PUBLIC_SITE_URL;
+
+  if (!value) return null;
+
+  const url = URL.parse(value);
+  const isHttp = url?.protocol === "https:" || url?.protocol === "http:";
+  const isBareOrigin = url?.pathname === "/" && !url.search && !url.hash && !url.username && !url.password;
+
+  if (!url || !isHttp || !isBareOrigin) {
+    throw new Error(`NEXT_PUBLIC_SITE_URL must be a bare origin like https://example.com, got "${value}"`);
+  }
+
+  return url;
+}
+
 type UpdateUrlQueryParams = {
   pathname: string;
   params: string;

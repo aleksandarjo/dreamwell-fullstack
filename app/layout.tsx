@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { getSiteUrl } from "@/lib/url";
+
 import "./globals.css";
 
 const golos = localFont({
   src: "./fonts/GolosTextVF.ttf",
-  variable: "--font-golos",
+  variable: "--font-golos-text",
 });
 
 const inter = localFont({
@@ -13,6 +15,7 @@ const inter = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: getSiteUrl(),
   title: {
     default: "Dreamwell | Find Your Dream Home",
     template: "%s | Dreamwell",

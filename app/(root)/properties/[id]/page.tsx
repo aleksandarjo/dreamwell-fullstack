@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
+import PropertyGallery from "@/components/properties/details/property-gallery";
+import PropertyHeader from "@/components/properties/details/property-header";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getPropertyById } from "@/lib/queries/property.queries";
 import { getPropertyImageUrl } from "@/lib/storage";
-import { formatPrice } from "@/lib/utils";
 
 export async function generateMetadata({ params }: PageProps<"/properties/[id]">): Promise<Metadata> {
   const { id } = await params;
@@ -34,8 +35,10 @@ async function PropertyDetailsContent({ params }: Pick<PageProps<"/properties/[i
 
   return (
     <article>
-      <h1 className="text-dark-blue text-3xl font-semibold">{property.title}</h1>
-      <p className="mt-4 text-2xl font-bold text-black">{formatPrice(property.price)}</p>
+      <PropertyHeader property={property} />
+      <div className="mt-6 md:mt-12">
+        <PropertyGallery title={property.title} imageUrls={property.galleryPaths.map(getPropertyImageUrl)} />
+      </div>
     </article>
   );
 }
@@ -43,15 +46,21 @@ async function PropertyDetailsContent({ params }: Pick<PageProps<"/properties/[i
 function PropertyDetailsSkeleton() {
   return (
     <div aria-hidden>
-      <Skeleton className="h-9 w-2/3 max-w-xl" />
-      <Skeleton className="mt-4 h-8 w-40" />
+      <Skeleton className="h-5 w-72 max-w-full" />
+      <Skeleton className="mt-6 h-9 w-2/3 max-w-xl md:mt-10 lg:h-14.5" />
+      <Skeleton className="mt-2 h-6 w-56" />
+      <div className="mt-6 grid grid-cols-2 gap-3 md:mt-12 md:aspect-[1620/650] md:grid-cols-[2fr_1fr] md:grid-rows-2 md:gap-5">
+        <Skeleton className="col-span-2 aspect-4/3 rounded-xl md:col-span-1 md:row-span-2 md:aspect-auto" />
+        <Skeleton className="aspect-4/3 rounded-xl md:aspect-auto" />
+        <Skeleton className="aspect-4/3 rounded-xl md:aspect-auto" />
+      </div>
     </div>
   );
 }
 
 export default function PropertyDetailsPage({ params }: PageProps<"/properties/[id]">) {
   return (
-    <div className="container">
+    <div className="container py-6 md:py-10">
       <Suspense fallback={<PropertyDetailsSkeleton />}>
         <PropertyDetailsContent params={params} />
       </Suspense>

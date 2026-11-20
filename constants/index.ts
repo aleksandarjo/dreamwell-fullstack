@@ -1,3 +1,4 @@
+import type { Property } from "@/db/schema/properties";
 import { BedroomOption, SortOption } from "@/lib/queries/property.queries";
 import type { ListingView } from "@/types/property";
 
@@ -13,3 +14,14 @@ export const SORT_OPTIONS = [
 ] as const satisfies readonly { value: SortOption; label: string }[];
 
 export const BEDROOM_OPTIONS = [1, 2, 3, "4+"] as const satisfies readonly BedroomOption[];
+
+export const PROPERTY_TYPE_LABELS = {
+  house: "House",
+  apartment: "Apartment",
+  villa: "Villa",
+  bungalow: "Bungalow",
+  townhouse: "Townhouse",
+  loft: "Loft",
+  office: "Office",
+  land: "Land",
+} satisfies Record<Property["propertyType"], string>;
