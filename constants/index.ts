@@ -25,3 +25,21 @@ export const PROPERTY_TYPE_LABELS = {
   office: "Office",
   land: "Land",
 } satisfies Record<Property["propertyType"], string>;
+
+export const LISTING_TYPE_LABELS = {
+  sale: "For Sale",
+  rent: "For Rent",
+} satisfies Record<Property["listingType"], string>;
+
+export const TOUR_TIME_OPTIONS = [
+  { value: "09:00", label: "9:00 AM" },
+  { value: "10:30", label: "10:30 AM" },
+  { value: "12:00", label: "12:00 PM" },
+  { value: "14:00", label: "2:00 PM" },
+  { value: "15:30", label: "3:30 PM" },
+  { value: "17:00", label: "5:00 PM" },
+] as const;
+
+export const SCHEDULE_TOUR_SECTION_ID = "schedule-tour";
+
+export const OPEN_SCHEDULE_TOUR_EVENT = "dreamwell:open-schedule-tour";

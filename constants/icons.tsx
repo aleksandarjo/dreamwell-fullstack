@@ -175,3 +175,28 @@ export const PaginationLeftIcon: FC<{ className?: string }> = ({ className }) =>
     />
   </svg>
 );
+
+export const PriceTagIcon: FC<{ className?: string }> = ({ className }) => (
+  <svg
+    aria-hidden
+    className={className}
+    width="48"
+    height="68"
+    viewBox="0 0 48 68"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M10 12H38L44 18V64C44 66.2091 42.2091 68 40 68H8C5.79086 68 4 66.2091 4 64V18L10 12ZM24 22.5C25.3807 22.5 26.5 21.3807 26.5 20C26.5 18.6193 25.3807 17.5 24 17.5C22.6193 17.5 21.5 18.6193 21.5 20C21.5 21.3807 22.6193 22.5 24 22.5ZM22 43H34C35.1046 43 36 43.8954 36 45C36 46.1046 35.1046 47 34 47H22C20.8954 47 20 46.1046 20 45C20 43.8954 20.8954 43 22 43ZM12 53H34C35.1046 53 36 53.8954 36 55C36 56.1046 35.1046 57 34 57H12C10.8954 57 10 56.1046 10 55C10 53.8954 10.8954 53 12 53Z"
+      fill="currentColor"
+    />
+    <path
+      d="M24 17.5C21.5 17.5 20 15.5 20 12.5V6.5C20 4.01472 22.0147 2 24.5 2C26.9853 2 29 4.01472 29 6.5V8"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+    />
+  </svg>
+);
