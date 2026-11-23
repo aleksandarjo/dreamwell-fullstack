@@ -3,14 +3,18 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 import PropertyDescription from "@/components/properties/details/property-description";
+import PropertyFeatures from "@/components/properties/details/property-features";
 import PropertyGallery from "@/components/properties/details/property-gallery";
 import PropertyHeader from "@/components/properties/details/property-header";
 import PropertyLocationDetails from "@/components/properties/details/property-location-details";
 import PropertyOverview from "@/components/properties/details/property-overview";
+import PropertySpecs from "@/components/properties/details/property-specs";
 import ScheduleTour from "@/components/properties/details/schedule-tour";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getPropertyById } from "@/lib/queries/property.queries";
 import { getPropertyImageUrl } from "@/lib/storage";
+
+const SECTION_DIVIDER_CLASS_NAME = "border-grey-light mt-10 border-t pt-10 md:mt-20 md:pt-20";
 
 export async function generateMetadata({ params }: PageProps<"/properties/[id]">): Promise<Metadata> {
   const { id } = await params;
@@ -52,10 +56,9 @@ async function PropertyDetailsContent({ params }: Pick<PageProps<"/properties/[i
         <div className="container grid gap-5 pt-6 pb-10 md:pb-20 xl:grid-cols-[1fr_527px]">
           <div className="shadow-main min-w-0 rounded-[15px] bg-white px-4 py-6 sm:px-10 sm:py-12 md:px-15 md:py-17 xl:col-start-1">
             <PropertyDescription description={property.description} />
-            <PropertyLocationDetails
-              property={property}
-              className="border-grey-light mt-10 border-t pt-10 md:mt-20 md:pt-20"
-            />
+            <PropertyLocationDetails property={property} className={SECTION_DIVIDER_CLASS_NAME} />
+            <PropertySpecs property={property} className={SECTION_DIVIDER_CLASS_NAME} />
+            <PropertyFeatures features={property.features} className={SECTION_DIVIDER_CLASS_NAME} />
           </div>
           <ScheduleTour />
         </div>

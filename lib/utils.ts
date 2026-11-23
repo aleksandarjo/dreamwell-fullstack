@@ -9,3 +9,7 @@ const priceFormatter = new Intl.NumberFormat("en-US", {
 export function formatPrice(price: number) {
   return priceFormatter.format(price);
 }
+
+export function formatArea(areaSqft: number) {
+  return `${areaSqft.toLocaleString("en-US")} sqft`;
+}
