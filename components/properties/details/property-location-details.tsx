@@ -1,9 +1,25 @@
+import { MapPinOffIcon } from "lucide-react";
+
+import PropertyLocationMap from "@/components/properties/details/property-location-map";
 import type { PropertyDetails } from "@/types/property";
 
 type PropertyLocationDetailsProps = {
-  property: Pick<PropertyDetails, "address" | "postalCode" | "state" | "neighborhood" | "city" | "country">;
+  property: Pick<
+    PropertyDetails,
+    "title" | "address" | "postalCode" | "state" | "neighborhood" | "city" | "country" | "latitude" | "longitude"
+  >;
   className?: string;
 };
+
+function parseCoordinates(latitude: string | null, longitude: string | null) {
+  if (!latitude?.trim() || !longitude?.trim()) return null;
+
+  const lat = Number(latitude);
+  const lng = Number(longitude);
+  const isValid = Number.isFinite(lat) && Number.isFinite(lng) && Math.abs(lat) <= 90 && Math.abs(lng) <= 180;
+
+  return isValid ? { latitude: lat, longitude: lng } : null;
+}
 
 export default function PropertyLocationDetails({ property, className }: PropertyLocationDetailsProps) {
   const details = [
@@ -18,7 +34,9 @@ export default function PropertyLocationDetails({ property, className }: Propert
     return trimmed ? [{ label, value: trimmed }] : [];
   });
 
-  if (details.length === 0) return null;
+  const coordinates = parseCoordinates(property.latitude, property.longitude);
+
+  if (details.length === 0 && !coordinates) return null;
 
   return (
     <section aria-labelledby="property-location-heading" className={className}>
@@ -33,6 +51,20 @@ export default function PropertyLocationDetails({ property, className }: Propert
           </div>
         ))}
       </dl>
+      <div className="mt-6 md:mt-12">
+        {coordinates ? (
+          <PropertyLocationMap
+            latitude={coordinates.latitude}
+            longitude={coordinates.longitude}
+            title={property.title}
+          />
+        ) : (
+          <p className="bg-light-grey text-grey flex items-center justify-center gap-2 px-4 py-10 text-center text-sm">
+            <MapPinOffIcon aria-hidden className="size-4 shrink-0" />
+            Map location isn&apos;t available for this property.
+          </p>
+        )}
+      </div>
     </section>
   );
 }
