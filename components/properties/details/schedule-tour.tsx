@@ -23,41 +23,20 @@ import { tourRequestSchema, type TourRequest, type TourRequestInput } from "@/li
 
 const DESKTOP_QUERY = "(min-width: 1280px)";
 const HIGHLIGHT_DURATION_MS = 1600;
-const STICKY_OFFSET_PX = 24;
 
 export default function ScheduleTour() {
   const headingId = useId();
   const isDesktop = useMediaQuery(DESKTOP_QUERY);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [highlightCount, setHighlightCount] = useState(0);
-  const [stickyTop, setStickyTop] = useState<number>();
   const sectionRef = useRef<HTMLElement>(null);
   const dateTriggerRef = useRef<HTMLButtonElement>(null);
-  const cardRef = useRef<HTMLDivElement>(null);
 
   const form = useForm<TourRequestInput, unknown, TourRequest>({
     resolver: zodResolver(tourRequestSchema),
     mode: "onTouched",
     defaultValues: { date: "", time: "", name: "", phone: "", email: "", message: "" },
   });
-
-  useEffect(() => {
-    const card = cardRef.current;
-
-    if (!isDesktop || !card) return;
-
-    const updateStickyTop = () =>
-      setStickyTop(Math.min(STICKY_OFFSET_PX, window.innerHeight - card.offsetHeight - STICKY_OFFSET_PX));
-    const observer = new ResizeObserver(updateStickyTop);
-
-    observer.observe(card);
-    window.addEventListener("resize", updateStickyTop);
-
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("resize", updateStickyTop);
-    };
-  }, [isDesktop]);
 
   useEffect(() => {
     if (highlightCount === 0) return;
@@ -91,12 +70,10 @@ export default function ScheduleTour() {
       ref={sectionRef}
       id={SCHEDULE_TOUR_SECTION_ID}
       aria-labelledby={headingId}
-      style={isDesktop ? { top: stickyTop } : undefined}
-      className="scroll-mt-6 xl:sticky xl:top-6 xl:self-start"
+      className="scroll-mt-5 xl:sticky xl:top-5 xl:self-start"
     >
       {isDesktop ? (
         <div
-          ref={cardRef}
           className={cn(
             "shadow-main rounded-[15px] bg-white px-12.5 pt-17 pb-22.5 ring-0 ring-transparent motion-safe:transition-shadow motion-safe:duration-500",
             highlightCount > 0 && "ring-primary/40 ring-4"
