@@ -45,9 +45,9 @@ export default function PropertyLocationDetails({ property, className }: Propert
       </h2>
       <dl className="mt-5 grid gap-y-4 text-sm sm:mt-8 sm:gap-y-6 md:grid-cols-2 md:gap-x-10">
         {details.map(({ label, value }) => (
-          <div key={label} className="grid grid-cols-[70px_1fr] gap-x-3 sm:gap-x-5">
+          <div key={label} className="grid grid-cols-[112px_1fr] gap-x-3 sm:gap-x-5">
             <dt className="font-semibold text-black">{label}:</dt>
-            <dd className="text-grey wrap-break-words min-w-0">{value}</dd>
+            <dd className="text-grey min-w-0 wrap-break-word">{value}</dd>
           </div>
         ))}
       </dl>
